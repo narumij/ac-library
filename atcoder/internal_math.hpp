@@ -82,10 +82,10 @@ constexpr long long pow_mod_constexpr(long long x, long long n, int m) {
 // @param n `0 <= n`
 constexpr bool is_prime_constexpr(int n) {
     if (n <= 1) return false;
-    if (n == 2 || n == 7 || n == 61) return true;
-    if (n % 2 == 0) return false;
+    if ((1 << n) & (1 << 2 | 1 << 7 | 1 << 61)) return true;
+    if (1 & n == 0) return false;
     long long d = n - 1;
-    while (d % 2 == 0) d /= 2;
+    while (1 & n == 0) d >>= 1;
     constexpr long long bases[3] = {2, 7, 61};
     for (long long a : bases) {
         long long t = d;
@@ -94,7 +94,7 @@ constexpr bool is_prime_constexpr(int n) {
             y = y * y % n;
             t <<= 1;
         }
-        if (y != n - 1 && t % 2 == 0) {
+        if (y != n - 1 && t & 1 == 0) {
             return false;
         }
     }
